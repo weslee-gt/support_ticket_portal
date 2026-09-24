@@ -10,6 +10,11 @@ function nextStatuses(status) {
 
 const COLUMNS = ['Open', 'In Progress', 'Resolved']
 const STATUS_COLOR = { Open: '#c0392b', 'In Progress': '#e08e0b', Resolved: '#1a7049' }
+const PRIORITIES = [
+  { value: 'low', label: 'Low' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'high', label: 'High' },
+]
 
 function App() {
   const [tickets, setTickets] = useState([])
@@ -129,9 +134,9 @@ return (
 
         <select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)}>
           <option value="">All priorities</option>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
+          {PRIORITIES.map((p) => (
+            <option key={p.value} value={p.value}>{p.label}</option>
+          ))}
         </select>
 
         <button className="add-button" onClick={() => setShowForm(!showForm)}>
@@ -158,9 +163,9 @@ return (
             onChange={(e) => setRequesterName(e.target.value)}
           />
           <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
+            {PRIORITIES.map((p) => (
+              <option key={p.value} value={p.value}>{p.label}</option>
+            ))}
           </select>
           <button type="submit">Raise ticket</button>
         </form>
@@ -179,7 +184,7 @@ return (
                 <div className="card" key={ticket.id}>
                   <p className="card-title">{ticket.title}</p>
                   <p className="card-meta">
-                    {ticket.priority} · #{ticket.id}
+                    {ticket.priority} · #{ticket.id} · {ticket.requester_name}
                   </p>
                   
                   <div className="card-actions">
