@@ -46,7 +46,7 @@ def list_tickets(
         query = query.filter(Ticket.status == status)
     if priority:
         query = query.filter(Ticket.priority == priority)
-    return query.all()
+    return query.order_by(Ticket.created_at.desc()).all()
 
 @app.get("/api/tickets/{ticket_id}", response_model=TicketOut)
 def get_ticket(ticket_id: int, db: Session = Depends(get_db)):
