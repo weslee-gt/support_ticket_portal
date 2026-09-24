@@ -134,6 +134,10 @@ return (
 
         <select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)}>
           <option value="">All priorities</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="critical">Critical</option>
           {PRIORITIES.map((p) => (
             <option key={p.value} value={p.value}>{p.label}</option>
           ))}
@@ -163,6 +167,10 @@ return (
             onChange={(e) => setRequesterName(e.target.value)}
           />
           <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
             {PRIORITIES.map((p) => (
               <option key={p.value} value={p.value}>{p.label}</option>
             ))}
@@ -184,6 +192,13 @@ return (
                 <div className="card" key={ticket.id}>
                   <p className="card-title">{ticket.title}</p>
                   <p className="card-meta">
+                    <span
+                      className="priority-badge"
+                      style={{ backgroundColor: PRIORITY_COLOR[ticket.priority] }}
+                    >
+                      {ticket.priority}
+                    </span>{' '}
+                    · #{ticket.id}
                     {ticket.priority} · #{ticket.id} · {ticket.requester_name}
                   </p>
                   

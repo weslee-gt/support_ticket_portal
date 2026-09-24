@@ -12,6 +12,7 @@ class TicketCreate(BaseModel):
     title: str = Field(min_length=3, max_length=120)
     description: str = Field(min_length=10, max_length=5000)
     requester_name: str = Field(min_length=1, max_length=80)
+    priority: str = Field(default="medium", pattern="^(low|medium|high|critical)$")
     priority: Priority = "medium"
 
 class TicketOut(BaseModel):

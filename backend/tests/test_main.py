@@ -83,6 +83,30 @@ def test_getting_an_unknown_ticket_returns_404():
     assert response.status_code == 404
 
 
+def test_create_ticket_accepts_critical_priority():
+    response = client.post(
+        "/api/tickets",
+        json={
+            "title": "Server room flooding",
+            "description": "Water leaking onto the main rack.",
+            "requester_name": "Soong",
+            "priority": "critical",
+        },
+    )
+
+    assert response.json()["priority"] == "critical"
+
+
+def test_create_ticket_rejects_unknown_priority():
+    response = client.post(
+        "/api/tickets",
+        json={
+            "title": "Mouse broken",
+            "description": "Left click stopped working.",
+            "requester_name": "Soong",
+            "priority": "urgent",
+        },
+    )
 def test_create_ticket_rejects_whitespace_only_title():
     response = client.post(
         "/api/tickets",
