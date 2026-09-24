@@ -38,7 +38,7 @@ def test_create_ticket_returns_201_with_open_status():
         },
     )
 
-    assert response.status_code == 200  # FastAPI's default success code
+    assert response.status_code == 201
     body = response.json()
     assert body["status"] == "Open"
     assert body["title"] == "Printer jam"
@@ -81,3 +81,32 @@ def test_getting_an_unknown_ticket_returns_404():
     response = client.get("/api/tickets/99999")
 
     assert response.status_code == 404
+
+
+def test_create_ticket_rejects_whitespace_only_title():
+    response = client.post(
+        "/api/tickets",
+        json={
+            "title": "     ",
+            "description": "Duplex printing jams every time.",
+            "requester_name": "Soong",
+        },
+    )
+
+    assert response.status_code == 422
+
+
+def test_status_update_rejects_unknown_status():
+    create = client.post(
+        "/api/tickets",
+        json={
+            "title": "Laptop slow",
+            "description": "Takes five minutes to boot.",
+            "requester_name": "Soong",
+        },
+    )
+    ticket_id = create.json()["id"]
+
+    response = client.patch(f"/api/tickets/{ticket_id}/status", json={"status": "Done"})
+
+    assert response.status_code == 422

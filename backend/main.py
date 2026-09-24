@@ -27,7 +27,7 @@ ALLOWED_FLOW = {
 def health():
     return {"status": "ok"}
 
-@app.post("/api/tickets", response_model=TicketOut)
+@app.post("/api/tickets", response_model=TicketOut, status_code=201)
 def create_ticket(payload: TicketCreate, db: Session = Depends(get_db)):
     ticket = Ticket(**payload.model_dump())
     db.add(ticket)
