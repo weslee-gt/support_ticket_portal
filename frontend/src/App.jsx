@@ -10,6 +10,7 @@ function nextStatuses(status) {
 
 const COLUMNS = ['Open', 'In Progress', 'Resolved']
 const STATUS_COLOR = { Open: '#c0392b', 'In Progress': '#e08e0b', Resolved: '#1a7049' }
+const PRIORITY_COLOR = { low: '#7f8c8d', medium: '#2f5bea', high: '#e08e0b', critical: '#c0392b' }
 
 function App() {
   const [tickets, setTickets] = useState([])
@@ -132,6 +133,7 @@ return (
           <option value="low">Low</option>
           <option value="medium">Medium</option>
           <option value="high">High</option>
+          <option value="critical">Critical</option>
         </select>
 
         <button className="add-button" onClick={() => setShowForm(!showForm)}>
@@ -161,6 +163,7 @@ return (
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
+            <option value="critical">Critical</option>
           </select>
           <button type="submit">Raise ticket</button>
         </form>
@@ -179,7 +182,13 @@ return (
                 <div className="card" key={ticket.id}>
                   <p className="card-title">{ticket.title}</p>
                   <p className="card-meta">
-                    {ticket.priority} · #{ticket.id}
+                    <span
+                      className="priority-badge"
+                      style={{ backgroundColor: PRIORITY_COLOR[ticket.priority] }}
+                    >
+                      {ticket.priority}
+                    </span>{' '}
+                    · #{ticket.id}
                   </p>
                   
                   <div className="card-actions">
